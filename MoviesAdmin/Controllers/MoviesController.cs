@@ -17,7 +17,7 @@ public class MoviesController : Controller
     {
         // Display movies sorted by release date
         return View(await _context.Movie
-            .OrderBy(m => m.Releasedate)
+            .OrderByDescending(m => m.Releasedate)
             .ToListAsync());
     }
 
