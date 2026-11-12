@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
+using Microsoft.Identity.Client;
 namespace MoviesAdmin.Models
 {
     public class Movie
@@ -39,6 +41,21 @@ namespace MoviesAdmin.Models
         // this will be the release date of the movie
         [Required]
         [Display(Name = "Release Date")]
-        public DateTime Releasedate { get; set; } = DateTime.Now;
+        public DateTime Releasedate { get; set; }
+
+        // this will give the AudienceRating of what they want to rate it from 1 to 5 stars
+        [Required]
+        [Display(Name = "Rating Eggs")]
+        [Range(1, 5)]
+        public int AudienceRating { get; set; }
+
+        // this will give the what the user wants to make a critical review on the movie in a string format
+        [Required]
+        [Display(Name = "Review Movie")]
+        [StringLength (1000)]
+        public string CriticReview {  get; set; } = string.Empty;
+
+        // this will show the image of the movie
+        public string? PosterImagePath { get; set; }
     }
 }

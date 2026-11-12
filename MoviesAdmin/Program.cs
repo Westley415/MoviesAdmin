@@ -1,4 +1,7 @@
+using Auth0.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("MoviesAdminContext") ?? throw new InvalidOperationException("Connection string 'MoviesAdminContext' not found.");
 
@@ -6,6 +9,39 @@ builder.Services.AddDbContext<MoviesAdminContext>(options => options.UseSqlServe
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
+builder.Services.AddAuth0WebAppAuthentication(options =>
+{
+    options.Domain = builder.Configuration["Auth0:Domain"];
+    options.ClientId = builder.Configuration["Auth0:ClientId"];
+    options.ClientSecret = builder.Configuration["Auth0:ClientSecret"];
+});
+
+
+
+builder.Services.Configure<OpenIdConnectOptions>(Auth0Constants.AuthenticationScheme, options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        NameClaimType = "name",
+        RoleClaimType = "https://localhost:7211/roles" // change to your app's domain
+    };
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 var app = builder.Build();
 

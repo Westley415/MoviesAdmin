@@ -50,10 +50,37 @@ public class MoviesController : Controller
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(
-        [Bind("Id,Title,Synopsis,Genre,Rating,Minutes,Releasedate")] Movie movie)
+    [Bind("Id,Title,Synopsis,Genre,Rating,Minutes,Releasedate,AudienceRating,CriticReview")] Movie movie,
+    IFormFile posterFile) // <-- Added file parameter
     {
         if (ModelState.IsValid)
         {
+            // Check if a file was selected in the browser
+            if (posterFile != null && posterFile.Length > 0)
+            {
+                // Create a unique name to prevent file conflicts
+                string uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(posterFile.FileName);
+
+                // Set up the path to your wwwroot/images folder
+                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                // Make sure the images folder exists
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                // Save the file to your hard drive
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await posterFile.CopyToAsync(fileStream);
+                }
+
+                // Store the path name in the database column
+                movie.PosterImagePath = uniqueFileName;
+            }
+
             _context.Add(movie);
             await _context.SaveChangesAsync();
 
@@ -86,7 +113,7 @@ public class MoviesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(
         int? id,
-        [Bind("Id,Title,Synopsis,Genre,Rating,Minutes,Releasedate")] Movie movie)
+        [Bind("Id,Title,Synopsis,Genre,Rating,Minutes,Releasedate,AudienceRating,CriticReview")] Movie movie)
     {
         if (id != movie.Id)
         {

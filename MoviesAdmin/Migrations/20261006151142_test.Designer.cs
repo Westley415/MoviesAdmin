@@ -12,7 +12,7 @@ namespace MoviesAdmin.Migrations
 {
     [DbContext(typeof(MoviesAdminContext))]
     [Migration("20261006151142_test")]
-    partial class test
+    partial class Test
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -13,6 +13,7 @@
 <table class="table table-striped">
     <thead>
         <tr>
+            <th>Movie Poster</th>
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
@@ -29,6 +30,13 @@
                 @Html.DisplayNameFor(model => model.Releasedate)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.AudienceRating)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.CriticReview)
+            </th>
+            <th>
                 Actions
             </th>
         </tr>
@@ -38,6 +46,17 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.PosterImagePath))
+                    {
+                        <img src="~/images/@item.PosterImagePath" alt="Poster" style="width: 60px; height: auto; border-radius: 4px;" />
+                    }
+                    else
+                    {
+                        <img src="~/images/egg-placeholder-png.png" alt="No Poster Available" style="width: 60px; height: auto; border-radius: 4px;" />
+                    }
+                </td>
+
                 <td>
                     @Html.DisplayFor(modelItem => item.Title)
                 </td>
@@ -56,6 +75,14 @@
 
                 <td>
                     @Html.DisplayFor(modelItem => item.Releasedate)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.AudienceRating)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.CriticReview)
                 </td>
 
                 <td>

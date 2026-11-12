@@ -11,7 +11,7 @@
 
 <div class="row">
     <div class="col-md-6">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -49,6 +49,23 @@
                 <label asp-for="Releasedate" class="control-label"></label>
                 <input asp-for="Releasedate" class="form-control" />
                 <span asp-validation-for="Releasedate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="AudienceRating" class="control-label"></label>
+                <input asp-for="AudienceRating" class="form-control" type="number" min="1" max="5" />
+                <span asp-validation-for="AudienceRating" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="CriticReview" class="control-label"></label>
+                <textarea asp-for="CriticReview" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="CriticReview" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Upload Movie Poster</label>
+                <input type="file" name="posterFile" class="form-control" accept="image/*" />
             </div>
 
             <div class="form-group">

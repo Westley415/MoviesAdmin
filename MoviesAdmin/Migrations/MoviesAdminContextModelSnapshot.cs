@@ -29,6 +29,14 @@ namespace MoviesAdmin.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AudienceRating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CriticReview")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
                     b.Property<string>("Genre")
                         .IsRequired()
                         .HasMaxLength(40)
@@ -36,6 +44,9 @@ namespace MoviesAdmin.Migrations
 
                     b.Property<string>("Minutes")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PosterImagePath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Rating")
